@@ -8,7 +8,7 @@ from sklearn.model_selection import train_test_split
 (feature, labels) = load_data()
 
 #perform a train test split on the data
-x_train, x_test,y_train,y_test = train_test_split(feature,labels,test_size=0.5)
+x_train, x_test,y_train,y_test = train_test_split(feature,labels,test_size=0.9)
 
 #set the categories
 categories = ['daisy', 'sunflower','rose', 'tulip','dandelion']
@@ -19,10 +19,12 @@ model = tf.keras.models.load_model('mymodel.h5')
 #predict on the trained model
 prediction = model.predict(x_test)
 
-plt.figure(figsize=(12,12))
+fig_size = 16
+
+plt.figure(figsize=(fig_size,fig_size))
 
 #show 12 random images with preiction and actual data
-for i in range(12):
+for i in range(fig_size):
     plt.subplot(4,4,i+1)
     plt.imshow(x_test[i])
     #set the label for prediction and actual data
@@ -39,5 +41,8 @@ for i in range(len(x_test)):
     else: count_false = count_false + 1
 print("Correct Guesses: " + str(count_correct))
 print("Wrong Guesses: " + str(count_false))
+perc = 100/(int(count_correct)+int(count_false))
+print('Percent of Correct: '+str(count_correct*perc)+'%')
+print('Percent of False: '+str(count_false*perc)+'%')
 
 

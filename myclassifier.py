@@ -38,17 +38,19 @@ out = tf.keras.layers.Dense(5, activation='softmax')(dn1)
 
 model = tf.keras.Model(input_layer, out)
 
+validation_data=(x_test,y_test)
 #compile the model
 model.compile(optimizer='adam' , loss='sparse_categorical_crossentropy', metrics=['accuracy'])
 
 #fit the model with and define the batchs size + number of epochs
-history = model.fit(x_train,y_train, batch_size= 200, epochs = 50)
+history = model.fit(x_train,y_train, batch_size= 200, epochs = 30, validation_data=validation_data)
 print(history.history.keys())
 plt.plot(history.history['accuracy'])
+plt.plot(history.history['val_accuracy'])
 plt.title('model accuracy')
 plt.ylabel('accuracy')
 plt.xlabel('epoch')
-plt.legend(['train'], loc='upper left')
+plt.legend(['train','test'], loc='upper left')
 plt.show()
 #save the model
 model.save('mymodel.h5')

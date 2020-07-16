@@ -1,4 +1,6 @@
 import os
+from random import random
+
 import numpy as np
 import matplotlib.pyplot as plt
 import cv2
@@ -31,7 +33,12 @@ def build_data():
                 image = cv2.resize(image, (224, 224))
                 #append the transformed image to the dataset
                 data.append([image, label])
-
+                cv2.flip(image,0)
+                data.append([image, label])
+                cv2.flip(image,1)
+                data.append([image, label])
+                rotation(image,24)
+                data.append([image, label])
             except Exception as e :
                      pass
 
@@ -42,6 +49,7 @@ def build_data():
         pik.close()
 
 build_data()
+
 
 def load_data():
     #open and load the picke file
@@ -69,3 +77,10 @@ def load_data():
 
     #return an array with both newly created np arrays
     return[feature, labels]
+
+def rotation(img, angle):
+    angle = int(random.uniform(-angle, angle))
+    h, w = img.shape[:2]
+    M = cv2.getRotationMatrix2D((int(w/2), int(h/2)), angle, 1)
+    img = cv2.warpAffine(img, M, (w, h))
+    return img
