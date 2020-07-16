@@ -1,2 +1,5 @@
 data
 .idea
+cnn.h5
+data.pickle
+mymodel.h5
